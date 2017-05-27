@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Administrator on 2017/5/19.
@@ -27,7 +24,7 @@ public class AssetController {
     private Logger logger = LoggerFactory.getLogger(AssetController.class);
 
 
-    @RequestMapping(value = "test.do",method = RequestMethod.POST)
+    @RequestMapping(value = "test.do")
     @ResponseBody
     public ServerResponse<String> login(){
         return ServerResponse.createByErrorMessage("hello ~~~");
@@ -38,7 +35,7 @@ public class AssetController {
     private static final String SEARCH_BY_ASSET_CATEGORY = "searchByAssetCategory";
     private static final String SEARCH_ALL = "searchAll";
 
-    @RequestMapping(value = "getAssetAllList.do", method = RequestMethod.POST)
+    @RequestMapping(value = "getAssetAllList.do")
     @ResponseBody
     public ServerResponse<PageInfo> getAllAsset(@RequestParam("searchType") String searchType,
                                                 @RequestParam("keyWord") String keyWord,
@@ -47,13 +44,13 @@ public class AssetController {
         return iAssetInfo.getAllAssetInfo(pageNum, pageSize);
     }
 
-    @RequestMapping(value = "getAssetById.do", method = RequestMethod.POST)
+    @RequestMapping(value = "getAssetById.do")
     @ResponseBody
     public ServerResponse<AssetInfo> getAssetByAssetId(String assetId) {
         return iAssetInfo.getAllAssetInfoById(assetId);
     }
 
-    @RequestMapping(value = "getAssetList.do", method = RequestMethod.POST)
+    @RequestMapping(value = "getAssetList.do")
     @ResponseBody
     public ServerResponse<PageInfo> getAssetList(@RequestParam("searchType") String searchType,
                                                  @RequestParam("keyWord") String keyWord,
@@ -73,19 +70,19 @@ public class AssetController {
         }
     }
 
-    @RequestMapping(value = "addAssetItem.do", method = RequestMethod.POST)
+    @RequestMapping(value = "addAssetItem.do")
     @ResponseBody
     public ServerResponse<String> addAssetItem(AssetInfo assetInfo) {
         return iAssetInfo.addAssetItem(assetInfo);
     }
 
-    @RequestMapping(value = "updateAssetInfo.do",method = RequestMethod.POST)
+    @RequestMapping(value = "updateAssetInfo.do")
     @ResponseBody
     public ServerResponse<String> updateAsseInfo(AssetInfo assetInfo) {
         return iAssetInfo.updateItem(assetInfo);
     }
 
-    @RequestMapping(value = "deleteItem.do", method = RequestMethod.POST)
+    @RequestMapping(value = "deleteItem.do")
     @ResponseBody
     public ServerResponse<String> deleteItem(String assetId) {
         return iAssetInfo.deleteItem(assetId);
