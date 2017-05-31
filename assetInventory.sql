@@ -20,7 +20,7 @@ CREATE TABLE `asset_inventory` (
   `storage_location` VARCHAR(100) DEFAULT NULL COMMENT '存放地点',
   `department_responsibility` VARCHAR(100) DEFAULT NULL COMMENT '责任部门',
   `person_in_charge` VARCHAR(11) DEFAULT NULL COMMENT '责任人',
-  `status_usage` VARCHAR(11) DEFAULT NULL COMMENT '使用状况,在用,保管',
+  `status_usage` VARCHAR(11) DEFAULT NULL COMMENT '使用状况（在用,保管）',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`asset_id`),
