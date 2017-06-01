@@ -5,6 +5,7 @@ import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.AssetInfo;
 import com.mmall.service.IAssetInfoService;
+import com.mmall.service.IAssetPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class AssetController {
 
     @Autowired
     private IAssetInfoService iAssetInfo;
+
+    @Autowired
+    private IAssetPrinter iAssetPrinter;
 
     private Logger logger = LoggerFactory.getLogger(AssetController.class);
 
@@ -88,4 +92,10 @@ public class AssetController {
         return iAssetInfo.deleteItem(assetId);
     }
 
+
+    @RequestMapping(value = "printQRcode.do")
+    @ResponseBody
+    public ServerResponse<String> printQRcode(String assetId) {
+        return iAssetPrinter.assetPrint(assetId);
+    }
 }
