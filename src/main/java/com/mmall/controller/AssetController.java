@@ -95,7 +95,7 @@ public class AssetController {
 
     @RequestMapping(value = "printQRcode.do")
     @ResponseBody
-    public ServerResponse<String> printQRcode(String assetId) {
-        return iAssetPrinter.assetPrint(assetId);
+    public ServerResponse<String> printQRcode(String assetId, String assetName) {
+        return iAssetPrinter.assetPrint(assetId, assetName);
     }
 }

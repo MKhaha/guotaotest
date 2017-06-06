@@ -44,12 +44,11 @@ public class AssetPrinterImpl implements IAssetPrinter{
     }
 
     @Override
-    public ServerResponse<String> assetPrint(String assetId) {
-        System.out.println("function in~~");
+    public ServerResponse<String> assetPrint(String assetId, String assetName) {
         try {
             System.setProperty("jna.encoding", "GBK");// 支持中文
             // TscLibDll.INSTANCE.about();
-            TscLibDll.INSTANCE.openport("TSC TTP-244 Plus");
+            TscLibDll.INSTANCE.openport("\\\\192.168.1.112\\TSC TTP-244 Plus");
             // TscLibDll.INSTANCE.downloadpcx("C:\\UL.PCX", "UL.PCX");
             // TscLibDll.INSTANCE.sendcommand("REM ***** This is a test by JAVA. *****");
             TscLibDll.INSTANCE.setup("60", "40", "5", "15", "0", "2", "0");
@@ -57,15 +56,24 @@ public class AssetPrinterImpl implements IAssetPrinter{
             TscLibDll.INSTANCE.sendcommand("SET TEAR ON");
             TscLibDll.INSTANCE.clearbuffer();
 
-            String command = "QRCODE 300,70,L,6,A,0,M2,S3,\"" + assetId + "\"";// 打印二维码
+            int startXQRcode = 32;
+            int startYQRcode = 36;
+            String command = "QRCODE " + startXQRcode + "," + startYQRcode + ",L,11,A,0,M2,S3,\"" + assetId + "\"";// 打印二维码
             TscLibDll.INSTANCE.sendcommand(command);
             // TscLibDll.INSTANCE.sendcommand("PUTPCX 550,10,\"UL.PCX\"");
 
             // TscLibDll.INSTANCE.printerfont("100", "50", "TSS24.BF2", "0", "1", "1", "Technology");
-            TscLibDll.INSTANCE.barcode("70", "140", "128", "90", "0", "0", "2", "2", "A123456789");// 打印内容，参数是位置和字体
-            TscLibDll.INSTANCE.windowsfont(15, 15, 40, 0, 2, 1, "Arial", "网络科技公司");
-            TscLibDll.INSTANCE.windowsfont(30, 90, 32, 0, 2, 0, "Arial", "--- 研发部");
-            TscLibDll.INSTANCE.windowsfont(120, 240, 32, 0, 2, 0, "Arial", "A123456789");
+            // TscLibDll.INSTANCE.barcode("70", "140", "128", "90", "0", "0", "2", "2", "A123456789");// 打印内容，参数是位置和字体
+
+            int fontheight = 24;
+            int startXFont = 280;
+            int startYFont = startYQRcode;
+            int spacingFont = fontheight * 2;
+            TscLibDll.INSTANCE.windowsfont(startXFont, startYQRcode, fontheight, 0, 2, 1, "Arial", "资产编号：");
+            TscLibDll.INSTANCE.windowsfont(startXFont, startYQRcode + spacingFont, fontheight, 0, 2, 0, "Arial", assetId);
+            TscLibDll.INSTANCE.windowsfont(startXFont, startYQRcode + spacingFont * 2, fontheight, 0, 2, 1, "Arial", "资产名称：");
+            TscLibDll.INSTANCE.windowsfont(startXFont, startYQRcode + spacingFont * 3, fontheight, 0, 2, 0, "Arial", assetName);
+            // TscLibDll.INSTANCE.windowsfont(120, 240, 32, 0, 2, 0, "Arial", assetId);
             TscLibDll.INSTANCE.printlabel("1", "1");
             TscLibDll.INSTANCE.closeport();
 
