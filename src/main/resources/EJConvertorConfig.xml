@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration xmlns="http://www.ken.com/schema/EJConvertor"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.ken.com/schema/EJConvertor EJConvertor.xsd">
+
+    <entity class="com.mmall.pojo.AssetInfo" sheetName="资产信息" boldHeading="true">
+        <property>
+            <field>assetId</field>
+            <value>固定资产编号</value>
+        </property>
+        <property>
+            <field>assetName</field>
+            <value>固定资产名称</value>
+        </property>
+        <property>
+            <field>assetCategory</field>
+            <value>资产类别</value>
+        </property>
+        <property>
+            <field>brandSpecification</field>
+            <value>品牌规格</value>
+        </property>
+        <property>
+            <field>unitMeasurement</field>
+            <value>计量单位</value>
+        </property>
+        <property>
+            <field>bookAmount</field>
+            <value>资产账面数量</value>
+        </property>
+        <property>
+            <field>inventoryAmount</field>
+            <value>资产盘点数量</value>
+        </property>
+        <property>
+            <field>storageLocation</field>
+            <value>存放地点</value>
+        </property>
+        <property>
+            <field>departmentResponsibility</field>
+            <value>责任部门</value>
+        </property>
+        <property>
+            <field>personInCharge</field>
+            <value>责任人</value>
+        </property>
+        <property>
+            <field>statusUsage</field>
+            <value>使用状况</value>
+        </property>
+    </entity>
+</configuration>

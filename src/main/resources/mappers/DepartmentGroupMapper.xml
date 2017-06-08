@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmall.dao.DepartmentGroupMapper">
+  <resultMap id="BaseResultMap" type="com.mmall.pojo.DepartmentGroup">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="department_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="detail" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, department_name, detail, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from department_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from department_group
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mmall.pojo.DepartmentGroup">
+    insert into department_group (id, department_name, detail, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      now(), now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.mmall.pojo.DepartmentGroup">
+    insert into department_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="departmentName != null">
+        department_name,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+        create_time,
+        update_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="departmentName != null">
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+        now(),
+        now(),
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mmall.pojo.DepartmentGroup">
+    update department_group
+    <set>
+      <if test="departmentName != null">
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+        update_time = now()
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mmall.pojo.DepartmentGroup">
+    update department_group
+    set department_name = #{departmentName,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = now()
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from department_group
+  </select>
+
+  <select id="checkDepartmentName" resultType="int"  parameterType="string">
+    select COUNT(1)
+    from department_group
+    where department_name = #{departmentName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByDepartmentName" parameterType="string">
+    delete from department_group
+    where department_name = #{departmentName,jdbcType=VARCHAR}
+  </delete>
+
+
+</mapper>

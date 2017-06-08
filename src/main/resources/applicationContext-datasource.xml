@@ -11,6 +11,11 @@
 
     <context:component-scan base-package="com.mmall" annotation-config="true"/>
 
+    <bean id="EJConvertor" class="com.mmall.util.EJConvertor">
+        <constructor-arg type="java.lang.String" value="EJConvertorConfig.xml"/>
+    </bean>
+
+
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2"/>

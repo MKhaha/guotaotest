@@ -27,6 +27,37 @@ CREATE TABLE `asset_inventory` (
   KEY `asset_id_index` (`asset_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+update asset_inventory SET inventory_amount=inventory_amount + 1,
+update_time = now()
+where asset_id = 'GA030001';
+-- ----------------------------
+--  Table structure for `department_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `department_group`;
+CREATE TABLE `department_group` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '部门id',
+  `department_name` VARCHAR(100) NOT NULL COMMENT '部门名称',
+  `detail` VARCHAR(1000) DEFAULT NULL COMMENT '部门描述信息',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `department_name_unique` (`department_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `department_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `category_asset`;
+CREATE TABLE `category_asset` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '资产分类id',
+  `category_name` VARCHAR(100) NOT NULL COMMENT '资产分类名称',
+  `detail` VARCHAR(100) DEFAULT NULL COMMENT '资产分类描述信息',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `category_name_unique` (`category_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 --  Table structure for `mmall_user`
 -- ----------------------------
