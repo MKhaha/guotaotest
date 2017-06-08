@@ -1,18 +1,17 @@
 package com.mmall.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.DepartmentGroupMapper;
-import com.mmall.pojo.AssetInfo;
 import com.mmall.pojo.DepartmentGroup;
 import com.mmall.service.IDepartmentService;
+import com.mmall.vo.DepartmentVo;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,22 +26,34 @@ class DepartmentServiceImpl implements IDepartmentService {
     private DepartmentGroupMapper departmentGroupMapper;
 
     @Override
-    public ServerResponse<PageInfo> getDepartmentList(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public ServerResponse<List<DepartmentVo>> getDepartmentList() {
+        List<DepartmentVo> departmentVoList = new ArrayList<>();
         List<DepartmentGroup> departmentGroupList = departmentGroupMapper.selectAll();
         if(CollectionUtils.isEmpty(departmentGroupList)) {
             logger.info("未找到集团部门信息");
+        } else {
+            for (DepartmentGroup departmentGroupItem : departmentGroupList) {
+                DepartmentVo departmentVoItme = new DepartmentVo();
+
+                departmentVoItme.setId(departmentGroupItem.getId());
+                departmentVoItme.setDepartmentName(departmentGroupItem.getDepartmentName());
+                departmentVoList.add(departmentVoItme);
+            }
         }
-        PageInfo pageResult =new PageInfo(departmentGroupList);
-        pageResult.setList(departmentGroupList);
-        return ServerResponse.createBySuccess(pageResult);
+        return ServerResponse.createBySuccess(departmentVoList);
+
     }
 
     @Override
-    public ServerResponse<String> addDepartmentItem(DepartmentGroup departmentGroup) {
-        if(departmentGroupMapper.checkDepartmentName(departmentGroup.getDepartmentName()) != 0) {
+    public ServerResponse<String> addDepartmentItem(String departmentName) {
+        if(org.apache.commons.lang3.StringUtils.isBlank(departmentName)) {
+            return ServerResponse.createByErrorMessage("字符串无意义");
+        }
+        if(departmentGroupMapper.checkDepartmentName(departmentName) != 0) {
             return ServerResponse.createByErrorMessage("集团部门已存在");
         }
+        DepartmentGroup departmentGroup = new DepartmentGroup();
+        departmentGroup.setDepartmentName(departmentName);
         int resultCount = departmentGroupMapper.insertSelective(departmentGroup);
         if(resultCount == 0) {
             return ServerResponse.createByErrorMessage("添加集团部门信息失败");
@@ -51,10 +62,18 @@ class DepartmentServiceImpl implements IDepartmentService {
     }
 
     @Override
-    public ServerResponse<String> updateDepartmentItem(DepartmentGroup departmentGroup) {
-        if(departmentGroupMapper.checkDepartmentName(departmentGroup.getDepartmentName()) != 0) {
+    public ServerResponse<String> updateDepartmentItem(DepartmentVo departmentVo) {
+        if(org.apache.commons.lang3.StringUtils.isBlank(departmentVo.getDepartmentName())) {
+            return ServerResponse.createByErrorMessage("字符串无意义");
+        }
+        if(departmentGroupMapper.checkDepartmentName(departmentVo.getDepartmentName()) != 0) {
             return ServerResponse.createByErrorMessage("集团部门已存在");
         }
+        DepartmentGroup departmentGroup = departmentGroupMapper.selectByPrimaryKey(departmentVo.getId());
+        if(departmentVo.getDepartmentName().equals(departmentGroup.getDepartmentName())) {
+            return ServerResponse.createByErrorMessage("未更改部门名称");
+        }
+        departmentGroup.setDepartmentName(departmentVo.getDepartmentName());
         int updateCount = departmentGroupMapper.updateByPrimaryKeySelective(departmentGroup);
         if(updateCount == 0) {
             return ServerResponse.createByErrorMessage("更新集团部门信息失败");

@@ -20,9 +20,8 @@ public class FileUtil {
      * @return 返回转换后的 java.io.File 类型的文件
      * @throws IOException IOException
      */
-    public static File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
-        File convertedFile = new File(multipartFile.getOriginalFilename());
+    public static void convertMultipartFileToFile(MultipartFile multipartFile, File convertedFile) throws IOException {
+//        File convertedFile = new File(multipartFile.getOriginalFilename());
         multipartFile.transferTo(convertedFile);
-        return convertedFile;
     }
 }

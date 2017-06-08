@@ -4,11 +4,14 @@ import com.github.pagehelper.PageInfo;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.CategoryAsset;
 import com.mmall.service.ICategoryAssetService;
+import com.mmall.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/6/7.
@@ -22,21 +25,20 @@ public class CategoryManageController {
 
     @RequestMapping(value = "getCategory.do")
     @ResponseBody
-    public ServerResponse<PageInfo> getCategory(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        return iCategory.getCategoryList(pageNum, pageSize);
+    public ServerResponse<List<CategoryVo>> getCategory() {
+        return iCategory.getCategoryList();
     }
 
     @RequestMapping(value = "addCategory.do")
     @ResponseBody
-    public ServerResponse<String> addCategory(CategoryAsset categoryAsset) {
-        return iCategory.addCategoryItem(categoryAsset);
+    public ServerResponse<String> addCategory(String categoryName) {
+        return iCategory.addCategoryItem(categoryName);
     }
 
     @RequestMapping(value = "updateCategory.do")
     @ResponseBody
-    public ServerResponse<String> updateCategory(CategoryAsset categoryAsset) {
-        return iCategory.updateCategoryItem(categoryAsset);
+    public ServerResponse<String> updateCategory(CategoryVo categoryVo ) {
+        return iCategory.updateCategoryItem(categoryVo);
     }
 
     @RequestMapping(value = "deleteCategory.do")

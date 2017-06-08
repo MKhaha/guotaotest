@@ -171,7 +171,12 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
         int insertCount = 0;
         // 从文件中读取
         try {
-            List<AssetInfo> assetInfoList = ejConvertor.excelReader(AssetInfo.class, FileUtil.convertMultipartFileToFile(file));
+            File tempFile = File.createTempFile("tmp", null);
+            tempFile.deleteOnExit();
+            FileUtil.convertMultipartFileToFile(file, tempFile);
+
+            System.out.println("tempFile.getAbsolutePath()" + tempFile.getAbsolutePath());
+            List<AssetInfo> assetInfoList = ejConvertor.excelReader(AssetInfo.class, tempFile);
             if (assetInfoList != null) {
 
                 AssetInfo assetSearch;
