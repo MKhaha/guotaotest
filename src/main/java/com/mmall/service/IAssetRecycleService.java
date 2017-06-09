@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Administrator on 2017/6/9.
  */
 public interface IAssetRecycleService {
-    ServerResponse<PageInfo> selectAll(int pageNum, int pageSize);
+    ServerResponse<PageInfo> selectAll(AssetInfo assetInfo, int pageNum, int pageSize);
     ServerResponse<String> deleteItem(String assetId);
     ServerResponse<List<String>> deleteAssetRecycleMultiItem(List<String> assetIdList);
     ServerResponse<String> notExistItemInAssetTable(String assetId);

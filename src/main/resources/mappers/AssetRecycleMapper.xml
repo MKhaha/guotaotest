@@ -195,4 +195,46 @@
     from asset_recycle
   </select>
 
+  <select id="selectSimilarRecord" resultMap="BaseResultMap" parameterType="com.mmall.pojo.AssetInfo">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM asset_recycle
+    <where>
+      <if test="assetId != null and assetId != ''" >
+        asset_id = #{assetId,jdbcType=VARCHAR}
+      </if>
+      <if test="assetName != null and assetName != ''" >
+        AND asset_name LIKE concat('%',#{assetName,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="assetCategory != null and assetCategory != ''" >
+        AND asset_category LIKE concat('%',#{assetCategory,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="brandSpecification != null and brandSpecification != ''" >
+        AND brand_specification LIKE concat('%',#{brandSpecification,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="unitMeasurement != null and unitMeasurement != ''" >
+        AND unit_measurement = #{unitMeasurement,jdbcType=VARCHAR}
+      </if>
+      <if test="bookAmount != null" >
+        AND book_amount = #{bookAmount,jdbcType=INTEGER}
+      </if>
+      <if test="inventoryAmount != null" >
+        AND inventory_amount = #{inventoryAmount,jdbcType=INTEGER}
+      </if>
+      <if test="storageLocation != null and storageLocation != ''" >
+        AND storage_location LIKE concat('%',#{storageLocation,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="departmentResponsibility != null and departmentResponsibility != ''" >
+        AND department_responsibility LIKE concat('%',#{departmentResponsibility,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="personInCharge != null and personInCharge != ''" >
+        AND person_in_charge LIKE concat('%',#{personInCharge,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="statusUsage != null and statusUsage != ''" >
+        AND status_usage = #{statusUsage,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+
 </mapper>

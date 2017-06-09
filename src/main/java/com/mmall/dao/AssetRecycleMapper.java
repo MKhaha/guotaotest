@@ -18,4 +18,8 @@ public interface AssetRecycleMapper {
     int updateByPrimaryKey(AssetInfo record);
 
     List<AssetInfo> selectAll();
+
+    // 按照record中非空变量查找相近或相等的
+    List<AssetInfo> selectSimilarRecord(AssetInfo record);
+
 }

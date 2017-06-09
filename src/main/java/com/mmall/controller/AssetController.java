@@ -251,9 +251,10 @@ public class AssetController {
 
     @RequestMapping(value = "getAssetRecycle.do")
     @ResponseBody
-    public ServerResponse<PageInfo> getAssetRecycle(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+    public ServerResponse<PageInfo> getAssetRecycle(AssetInfo assetInfo,
+                                                    @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        return iAssetRecycle.selectAll(pageNum, pageSize);
+        return iAssetRecycle.selectAll(assetInfo, pageNum, pageSize);
     }
 
     @RequestMapping(value = "deleteAssetRecycleItem.do")

@@ -30,9 +30,9 @@ public class AssetRecycleServiceImpl implements IAssetRecycleService {
     private AssetInfoMapper assetInfoMapper;
 
     @Override
-    public ServerResponse<PageInfo> selectAll(int pageNum, int pageSize) {
+    public ServerResponse<PageInfo> selectAll(AssetInfo assetInfo, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<AssetInfo> assetInfoList = assetRecycleMapper.selectAll();
+        List<AssetInfo> assetInfoList = assetRecycleMapper.selectSimilarRecord(assetInfo);
         if(CollectionUtils.isEmpty(assetInfoList)) {
             logger.info("资产回收站为空");
         }
@@ -87,7 +87,7 @@ public class AssetRecycleServiceImpl implements IAssetRecycleService {
     @Override
     public ServerResponse<String> notExistItemInAssetTable(String assetId) {
         AssetInfo assetInfo = assetInfoMapper.selectByPrimaryKey(assetId);
-        if(assetId != null) {
+        if(assetInfo == null) {
             return ServerResponse.createBySuccessMessage("原表中不存在这样的资产编号");
         } else {
             return ServerResponse.createByError("原表中存在这样的资产编号", assetId);
