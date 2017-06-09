@@ -279,10 +279,18 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
         try {
             if(assetInfoMapper.checkAssetId(assetId) == 0) {
                 return ServerResponse.createByErrorMessage("对应资产信息不存在");
-            } else if(assetInfoMapper.updateInventoryAmountByPrimaryKey(assetId) == 0) {
-                return ServerResponse.createByErrorMessage("更新资产盘点数量失败");
             }
-            return ServerResponse.createBySuccessMessage("更新资产盘点数量成功");
+            AssetInfo assetInfo = assetInfoMapper.selectByPrimaryKey(assetId);
+            int bookAmount = assetInfo.getBookAmount();
+            int inventoryAmount = assetInfo.getInventoryAmount();
+            if(bookAmount < inventoryAmount) {
+                if(assetInfoMapper.updateInventoryAmountByPrimaryKey(assetId) == 0) {
+                    return ServerResponse.createByErrorMessage("更新资产盘点数量失败");
+                }
+                return ServerResponse.createBySuccessMessage("更新资产盘点数量成功");
+            } else {
+                return ServerResponse.createByErrorMessage("该资产已经完成盘点");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return ServerResponse.createByErrorMessage("数据库操作出现问题");
