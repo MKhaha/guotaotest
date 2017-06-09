@@ -269,6 +269,7 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             return ServerResponse.createBySuccessMessage("清空资产盘点数量成功");
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ServerResponse.createByErrorMessage("数据库操作出现问题");
         }
     }
@@ -283,6 +284,7 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             }
             return ServerResponse.createBySuccessMessage("更新资产盘点数量成功");
         } catch (Exception e) {
+            e.printStackTrace();
             return ServerResponse.createByErrorMessage("数据库操作出现问题");
         }
     }
@@ -299,6 +301,7 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             pageResult.setList(assetInfoList);
             return ServerResponse.createBySuccess(pageResult);
         } catch (Exception e) {
+            e.printStackTrace();
             return ServerResponse.createByErrorMessage("数据库操作出现问题");
         }
     }
@@ -315,6 +318,7 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             pageResult.setList(assetInfoList);
             return ServerResponse.createBySuccess(pageResult);
         } catch (Exception e) {
+            e.printStackTrace();
             return ServerResponse.createByErrorMessage("数据库操作出现问题");
         }
     }
