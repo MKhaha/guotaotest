@@ -105,9 +105,13 @@ public class AssetRecycleServiceImpl implements IAssetRecycleService {
     }
 
     @Override
-    public ServerResponse<String> recycleAssetItem(AssetInfo assetInfo) {
-        if(assetInfo == null) {
+    public ServerResponse<String> recycleAssetItem(String assetId) {
+        if(assetId == null) {
             return ServerResponse.createByErrorMessage("传入数据为空");
+        }
+        AssetInfo assetInfo = assetRecycleMapper.selectByPrimaryKey(assetId);
+        if(assetInfo == null) {
+            return ServerResponse.createByErrorMessage("回收站中不存在对应资产编号");
         }
 
         int resultCount;
@@ -141,16 +145,21 @@ public class AssetRecycleServiceImpl implements IAssetRecycleService {
 
     @Override
     @Transactional()
-    public ServerResponse<String> recycleAssetMultiItem(List<AssetInfo> assetInfoList) {
+    public ServerResponse<String> recycleAssetMultiItem(List<String> assetIdList) {
 
         try {
-            if(assetInfoList == null) {
+            if(assetIdList == null) {
                 return ServerResponse.createByErrorMessage("传入数据列表为空");
             }
-
-            for (AssetInfo assetInfoItem : assetInfoList) {
-                recycleAssetItem(assetInfoItem);
+            for (String assetIdItem : assetIdList) {
+                AssetInfo assetInfo = assetRecycleMapper.selectByPrimaryKey(assetIdItem);
+                if(assetInfo == null) {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return ServerResponse.createByErrorMessage("回收站中不存在资产编号：" + assetIdItem);
+                }
+                recycleItem(assetInfo);
             }
+
             return ServerResponse.createBySuccessMessage("回收成功");
         } catch (Exception e) {
             e.printStackTrace();

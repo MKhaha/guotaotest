@@ -277,8 +277,8 @@ public class AssetController {
 
     @RequestMapping(value = "recycleAssetItem.do")
     @ResponseBody
-    public ServerResponse<String> recycleAssetItem(AssetInfo assetInfo) {
-        return iAssetRecycle.recycleAssetItem(assetInfo);
+    public ServerResponse<String> recycleAssetItem(String assetId) {
+        return iAssetRecycle.recycleAssetItem(assetId);
     }
 
     @RequestMapping(value = "notExistMultiItemInAssetTable.do")
@@ -289,8 +289,8 @@ public class AssetController {
 
     @RequestMapping(value = "recycleAssetMultiItem.do")
     @ResponseBody
-    public ServerResponse<String> recycleAssetMultiItem(List<AssetInfo> assetInfoList) {
-        return iAssetRecycle.recycleAssetMultiItem(assetInfoList);
+    public ServerResponse<String> recycleAssetMultiItem(List<String> assetIdList) {
+        return iAssetRecycle.recycleAssetMultiItem(assetIdList);
     }
 
 }

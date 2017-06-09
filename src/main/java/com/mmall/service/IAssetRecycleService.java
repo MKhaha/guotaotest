@@ -15,7 +15,7 @@ public interface IAssetRecycleService {
     ServerResponse<String> deleteItem(String assetId);
     ServerResponse<List<String>> deleteAssetRecycleMultiItem(List<String> assetIdList);
     ServerResponse<String> notExistItemInAssetTable(String assetId);
-    ServerResponse<String> recycleAssetItem(AssetInfo assetInfo);
+    ServerResponse<String> recycleAssetItem(String assetId);
     ServerResponse<List<String>> notExistMultiItemInAssetTable(List<String> assetIdList);
-    ServerResponse<String> recycleAssetMultiItem(List<AssetInfo> assetInfoList);
+    ServerResponse<String> recycleAssetMultiItem(List<String> assetIdList);
 }
