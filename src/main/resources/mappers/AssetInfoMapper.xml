@@ -280,7 +280,7 @@
     FROM asset_inventory
     WHERE inventory_amount = book_amount
     <if test="assetId != null and assetId != ''" >
-      asset_id = #{assetId,jdbcType=VARCHAR}
+      AND asset_id = #{assetId,jdbcType=VARCHAR}
     </if>
     <if test="assetName != null and assetName != ''" >
       AND asset_name LIKE concat('%',#{assetName,jdbcType=VARCHAR},'%')
