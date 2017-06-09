@@ -43,7 +43,10 @@ public class CategoryManageController {
 
     @RequestMapping(value = "deleteCategory.do")
     @ResponseBody
-    public ServerResponse<String> deleteCategory(int categoryId) {
-        return iCategory.deleteCategoryItem(categoryId);
+    public ServerResponse<String> deleteCategory(Integer id) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数为空");
+        }
+        return iCategory.deleteCategoryItem(id);
     }
 }

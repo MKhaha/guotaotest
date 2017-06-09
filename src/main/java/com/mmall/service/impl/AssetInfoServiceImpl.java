@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.AssetInfoMapper;
+import com.mmall.dao.AssetRecycleMapper;
 import com.mmall.pojo.AssetInfo;
 import com.mmall.service.IAssetInfoService;
 import com.mmall.util.EJConvertor;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,8 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
     private AssetInfoMapper assetInfoMapper;
     @Autowired
     private EJConvertor ejConvertor;
+    @Autowired
+    private AssetRecycleMapper assetRecycleMapper;
 
     @Override
     public List<AssetInfo> getAllAssetInfoNoPage() {
@@ -150,10 +154,15 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
 
     @Override
     public ServerResponse<String> deleteItem(String assetId) {
-        int resultCount = assetInfoMapper.checkAssetId(assetId);
-        if(resultCount > 0) {
+        AssetInfo assetInfo = assetInfoMapper.selectByPrimaryKey(assetId);
+        if(assetInfo != null) {
             int deleteCount = assetInfoMapper.deleteByPrimaryKey(assetId);
             if(deleteCount > 0) {
+                if(assetRecycleMapper.selectByPrimaryKey(assetId) != null) {
+                    assetRecycleMapper.updateByPrimaryKeySelective(assetInfo);
+                } else {
+                    assetRecycleMapper.insertSelective(assetInfo);
+                }
                 return ServerResponse.createBySuccessMessage("删除资产信息成功");
             } else {
                 return ServerResponse.createByErrorMessage("删除资产信息失败");
@@ -309,4 +318,5 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             return ServerResponse.createByErrorMessage("数据库操作出现问题");
         }
     }
+
 }

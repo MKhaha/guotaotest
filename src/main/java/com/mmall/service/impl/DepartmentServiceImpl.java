@@ -46,6 +46,7 @@ class DepartmentServiceImpl implements IDepartmentService {
 
     @Override
     public ServerResponse<String> addDepartmentItem(String departmentName) {
+        System.out.println(departmentName);
         if(org.apache.commons.lang3.StringUtils.isBlank(departmentName)) {
             return ServerResponse.createByErrorMessage("字符串无意义");
         }
@@ -63,6 +64,7 @@ class DepartmentServiceImpl implements IDepartmentService {
 
     @Override
     public ServerResponse<String> updateDepartmentItem(DepartmentVo departmentVo) {
+        System.out.println(departmentVo.getDepartmentName());
         if(org.apache.commons.lang3.StringUtils.isBlank(departmentVo.getDepartmentName())) {
             return ServerResponse.createByErrorMessage("字符串无意义");
         }

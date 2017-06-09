@@ -44,8 +44,11 @@ public class DepartmentManageController {
 
     @RequestMapping(value = "deleteDepartment.do")
     @ResponseBody
-    public ServerResponse<String> deleteDepartment(int departmentId) {
-        return iDepartment.deleteDepartmentItem(departmentId);
+    public ServerResponse<String> deleteDepartment(Integer id) {
+        if (id == null) {
+            return ServerResponse.createByErrorMessage("参数为空");
+        }
+        return iDepartment.deleteDepartmentItem(id);
     }
 
 }

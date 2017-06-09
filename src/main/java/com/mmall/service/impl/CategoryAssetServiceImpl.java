@@ -49,7 +49,7 @@ public class CategoryAssetServiceImpl implements ICategoryAssetService {
 
     @Override
     public ServerResponse<String> addCategoryItem(String categoryName) {
-
+        System.out.println(categoryName);
         if(org.apache.commons.lang3.StringUtils.isBlank(categoryName)) {
             return ServerResponse.createByErrorMessage("字符串无意义");
         }
@@ -68,7 +68,7 @@ public class CategoryAssetServiceImpl implements ICategoryAssetService {
 
     @Override
     public ServerResponse<String> updateCategoryItem(CategoryVo categoryVo) {
-
+        System.out.println(categoryVo.getCategoryName());
 
         if(org.apache.commons.lang3.StringUtils.isBlank(categoryVo.getCategoryName())) {
             return ServerResponse.createByErrorMessage("字符串无意义");

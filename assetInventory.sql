@@ -27,9 +27,12 @@ CREATE TABLE `asset_inventory` (
   KEY `asset_id_index` (`asset_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-update asset_inventory SET inventory_amount=inventory_amount + 1,
-update_time = now()
-where asset_id = 'GA030001';
+# 复制资产盘点表产生资产回收表
+CREATE TABLE `asset_recycle` LIKE `asset_inventory`;
+
+# update asset_inventory SET inventory_amount=inventory_amount + 1,
+# update_time = now()
+# where asset_id = 'GA030001';
 -- ----------------------------
 --  Table structure for `department_group`
 -- ----------------------------

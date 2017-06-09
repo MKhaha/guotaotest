@@ -7,6 +7,7 @@ import com.mmall.common.ServerResponse;
 import com.mmall.pojo.AssetInfo;
 import com.mmall.service.IAssetInfoService;
 import com.mmall.service.IAssetPrinter;
+import com.mmall.service.IAssetRecycleService;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.slf4j.Logger;
@@ -38,6 +39,8 @@ public class AssetController {
 
     @Autowired
     private IAssetPrinter iAssetPrinter;
+    @Autowired
+    private IAssetRecycleService iAssetRecycle;
 
     private Logger logger = LoggerFactory.getLogger(AssetController.class);
 
@@ -243,6 +246,51 @@ public class AssetController {
                                                             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         return iAssetInfo.getNotCompleteInventory(assetInfo, pageNum, pageSize);
+    }
+
+
+    @RequestMapping(value = "getAssetRecycle.do")
+    @ResponseBody
+    public ServerResponse<PageInfo> getAssetRecycle(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+                                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        return iAssetRecycle.selectAll(pageNum, pageSize);
+    }
+
+    @RequestMapping(value = "deleteAssetRecycleItem.do")
+    @ResponseBody
+    public ServerResponse<String> deleteAssetRecycleItem(String assetId) {
+        return iAssetRecycle.deleteItem(assetId);
+    }
+
+    @RequestMapping(value = "deleteAssetRecycleMultiItem.do")
+    @ResponseBody
+    public ServerResponse<List<String>> deleteAssetRecycleMultiItem(List<String> assetIdList) {
+        System.out.println(assetIdList);
+        return iAssetRecycle.deleteAssetRecycleMultiItem(assetIdList);
+    }
+
+    @RequestMapping(value = "notExistItemInAssetTable.do")
+    @ResponseBody
+    public ServerResponse<String> notExistItemInAssetTable(String assetId) {
+        return iAssetRecycle.notExistItemInAssetTable(assetId);
+    }
+
+    @RequestMapping(value = "recycleAssetItem.do")
+    @ResponseBody
+    public ServerResponse<String> recycleAssetItem(AssetInfo assetInfo) {
+        return iAssetRecycle.recycleAssetItem(assetInfo);
+    }
+
+    @RequestMapping(value = "notExistMultiItemInAssetTable.do")
+    @ResponseBody
+    public ServerResponse<List<String>> notExistMultiItemInAssetTable(List<String> assetIdList) {
+        return iAssetRecycle.notExistMultiItemInAssetTable(assetIdList);
+    }
+
+    @RequestMapping(value = "recycleAssetMultiItem.do")
+    @ResponseBody
+    public ServerResponse<String> recycleAssetMultiItem(List<AssetInfo> assetInfoList) {
+        return iAssetRecycle.recycleAssetMultiItem(assetInfoList);
     }
 
 }
