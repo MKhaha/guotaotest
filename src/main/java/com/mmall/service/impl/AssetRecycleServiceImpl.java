@@ -157,7 +157,9 @@ public class AssetRecycleServiceImpl implements IAssetRecycleService {
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                     return ServerResponse.createByErrorMessage("回收站中不存在资产编号：" + assetIdItem);
                 }
-                recycleItem(assetInfo);
+                if(recycleItem(assetInfo) == 1) {
+                    assetRecycleMapper.deleteByPrimaryKey(assetIdItem);
+                }
             }
 
             return ServerResponse.createBySuccessMessage("回收成功");

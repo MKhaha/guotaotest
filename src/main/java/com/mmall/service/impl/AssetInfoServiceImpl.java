@@ -283,7 +283,9 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             AssetInfo assetInfo = assetInfoMapper.selectByPrimaryKey(assetId);
             int bookAmount = assetInfo.getBookAmount();
             int inventoryAmount = assetInfo.getInventoryAmount();
-            if(bookAmount < inventoryAmount) {
+            System.out.println("bookAmount = " + bookAmount);
+            System.out.println("inventoryAmount = " + inventoryAmount);
+            if(bookAmount > inventoryAmount) {
                 if(assetInfoMapper.updateInventoryAmountByPrimaryKey(assetId) == 0) {
                     return ServerResponse.createByErrorMessage("更新资产盘点数量失败");
                 }

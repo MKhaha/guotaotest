@@ -1,15 +1,12 @@
 package com.mmall.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.StringUtil;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.AssetInfo;
 import com.mmall.service.IAssetInfoService;
 import com.mmall.service.IAssetPrinter;
 import com.mmall.service.IAssetRecycleService;
-import org.apache.commons.lang.StringUtils;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/5/19.
@@ -137,50 +128,6 @@ public class AssetController {
         return iAssetInfo.addAssetMutliItem(file);
     }
 
-
-//    @SuppressWarnings("unchecked")
-//    @RequestMapping(value = "exportStorageRecord.do", method = RequestMethod.GET)
-//    public ServerResponse<String> exportStorageRecord(@RequestParam("searchType") String searchType,
-//                                    @RequestParam("keyword") String keyword,
-//                                    @RequestParam(value = "departmentResponsibility", required = false) String departmentResponsibility,
-//                                    HttpServletRequest request, HttpServletResponse response) {
-//        String fileName = "assetRecord.xlsx";
-//        try {
-//            HttpSession session = request.getSession();
-//            String sessionDepartmentResponsibility = (String) session.getAttribute("departmentResponsibility");
-//            if (StringUtils.isNotBlank(sessionDepartmentResponsibility)) {
-//                departmentResponsibility = sessionDepartmentResponsibility;
-//            }
-//
-//            List<AssetInfo> assetInfoList = getAssetListNoPage(searchType, keyword);
-//            if(assetInfoList != null) {
-//                File file = iAssetInfo.exportAssetMutilItem(assetInfoList);
-//                if(file != null) {
-//                    // 设置响应头
-//                    response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
-//                    FileInputStream inputStream = new FileInputStream(file);
-//                    OutputStream outputStream = response.getOutputStream();
-//                    byte[] buffer = new byte[8192];
-//
-//                    int len;
-//                    while ((len = inputStream.read(buffer, 0, buffer.length)) > 0) {
-//                        outputStream.write(buffer, 0, len);
-//                        outputStream.flush();
-//                    }
-//
-//                    inputStream.close();
-//                    outputStream.close();
-//                }
-//            } else {
-//                return ServerResponse.createByErrorMessage("")
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ServerResponse.createByErrorMessage("导出数据失败");
-//        }
-//    }
-
     /**
      * 导出资产信息
      *
@@ -265,7 +212,7 @@ public class AssetController {
 
     @RequestMapping(value = "deleteAssetRecycleMultiItem.do")
     @ResponseBody
-    public ServerResponse<List<String>> deleteAssetRecycleMultiItem(List<String> assetIdList) {
+    public ServerResponse<List<String>> deleteAssetRecycleMultiItem(@RequestBody List<String> assetIdList) {
         System.out.println(assetIdList);
         return iAssetRecycle.deleteAssetRecycleMultiItem(assetIdList);
     }
@@ -284,13 +231,16 @@ public class AssetController {
 
     @RequestMapping(value = "notExistMultiItemInAssetTable.do")
     @ResponseBody
-    public ServerResponse<List<String>> notExistMultiItemInAssetTable(List<String> assetIdList) {
+    public ServerResponse<List<String>> notExistMultiItemInAssetTable(@RequestBody List<String> assetIdList) {
+        for (String item : assetIdList) {
+            System.out.println(item);
+        }
         return iAssetRecycle.notExistMultiItemInAssetTable(assetIdList);
     }
 
     @RequestMapping(value = "recycleAssetMultiItem.do")
     @ResponseBody
-    public ServerResponse<String> recycleAssetMultiItem(List<String> assetIdList) {
+    public ServerResponse<String> recycleAssetMultiItem(@RequestBody List<String> assetIdList) {
         return iAssetRecycle.recycleAssetMultiItem(assetIdList);
     }
 
