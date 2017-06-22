@@ -3,6 +3,7 @@ package com.mmall.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.ServerResponse;
+import com.mmall.dao.AssetInfoMapper;
 import com.mmall.dao.CategoryAssetMapper;
 import com.mmall.pojo.CategoryAsset;
 import com.mmall.pojo.DepartmentGroup;
@@ -27,6 +28,8 @@ public class CategoryAssetServiceImpl implements ICategoryAssetService {
     private Logger logger = LoggerFactory.getLogger(CategoryAssetServiceImpl.class);
     @Autowired
     private CategoryAssetMapper categoryAssetMapper;
+    @Autowired
+    private AssetInfoMapper assetInfoMapper;
 
     @Override
     public ServerResponse<List<CategoryVo>> getCategoryList() {
@@ -34,16 +37,27 @@ public class CategoryAssetServiceImpl implements ICategoryAssetService {
         List<CategoryAsset> categoryAssetList = categoryAssetMapper.selectAll();
         if(CollectionUtils.isEmpty(categoryAssetList)) {
             logger.info("未找到资产分类信息");
-        } else {
-            for (CategoryAsset categoryAssetItem : categoryAssetList) {
-                CategoryVo categoryVoItem = new CategoryVo();
-
-                categoryVoItem.setId(categoryAssetItem.getId());
-                categoryVoItem.setCategoryName(categoryAssetItem.getCategoryName());
-                categoryVoList.add(categoryVoItem);
-
+            List<String> categoryStringList = assetInfoMapper.selectCategoryList();
+            if(categoryStringList.isEmpty()) {
+                return ServerResponse.createBySuccess(categoryVoList);
             }
+
+            for (String categoryItem : categoryStringList) {
+                CategoryAsset categoryAsset = new CategoryAsset();
+                categoryAsset.setCategoryName(categoryItem);
+                categoryAssetMapper.insertSelective(categoryAsset);
+            }
+            categoryAssetList = categoryAssetMapper.selectAll();
         }
+
+        for (CategoryAsset categoryAssetItem : categoryAssetList) {
+            CategoryVo categoryVoItem = new CategoryVo();
+
+            categoryVoItem.setId(categoryAssetItem.getId());
+            categoryVoItem.setCategoryName(categoryAssetItem.getCategoryName());
+            categoryVoList.add(categoryVoItem);
+        }
+
         return ServerResponse.createBySuccess(categoryVoList);
     }
 

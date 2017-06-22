@@ -2,6 +2,7 @@ package com.mmall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.AssetInfoMapper;
 import com.mmall.dao.AssetRecycleMapper;
@@ -283,8 +284,6 @@ public class AssetInfoServiceImpl implements IAssetInfoService {
             AssetInfo assetInfo = assetInfoMapper.selectByPrimaryKey(assetId);
             int bookAmount = assetInfo.getBookAmount();
             int inventoryAmount = assetInfo.getInventoryAmount();
-            System.out.println("bookAmount = " + bookAmount);
-            System.out.println("inventoryAmount = " + inventoryAmount);
             if(bookAmount > inventoryAmount) {
                 if(assetInfoMapper.updateInventoryAmountByPrimaryKey(assetId) == 0) {
                     return ServerResponse.createByErrorMessage("更新资产盘点数量失败");

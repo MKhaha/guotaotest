@@ -1,7 +1,9 @@
 package com.mmall.service.impl;
 
 import com.mmall.common.ServerResponse;
+import com.mmall.dao.AssetInfoMapper;
 import com.mmall.dao.DepartmentGroupMapper;
+import com.mmall.pojo.CategoryAsset;
 import com.mmall.pojo.DepartmentGroup;
 import com.mmall.service.IDepartmentService;
 import com.mmall.vo.DepartmentVo;
@@ -24,6 +26,8 @@ class DepartmentServiceImpl implements IDepartmentService {
 
     @Autowired
     private DepartmentGroupMapper departmentGroupMapper;
+    @Autowired
+    private AssetInfoMapper assetInfoMapper;
 
     @Override
     public ServerResponse<List<DepartmentVo>> getDepartmentList() {
@@ -31,15 +35,28 @@ class DepartmentServiceImpl implements IDepartmentService {
         List<DepartmentGroup> departmentGroupList = departmentGroupMapper.selectAll();
         if(CollectionUtils.isEmpty(departmentGroupList)) {
             logger.info("未找到集团部门信息");
-        } else {
-            for (DepartmentGroup departmentGroupItem : departmentGroupList) {
-                DepartmentVo departmentVoItme = new DepartmentVo();
-
-                departmentVoItme.setId(departmentGroupItem.getId());
-                departmentVoItme.setDepartmentName(departmentGroupItem.getDepartmentName());
-                departmentVoList.add(departmentVoItme);
+            List<String> departmentStringList = assetInfoMapper.selectDepartmentList();
+            if(departmentStringList.isEmpty()) {
+                return ServerResponse.createBySuccess(departmentVoList);
             }
+
+            for (String departmentItem : departmentStringList) {
+                DepartmentGroup departmentGroup = new DepartmentGroup();
+                departmentGroup.setDepartmentName(departmentItem);
+                departmentGroupMapper.insertSelective(departmentGroup);
+            }
+            departmentGroupList = departmentGroupMapper.selectAll();
+
         }
+
+        for (DepartmentGroup departmentGroupItem : departmentGroupList) {
+            DepartmentVo departmentVoItme = new DepartmentVo();
+
+            departmentVoItme.setId(departmentGroupItem.getId());
+            departmentVoItme.setDepartmentName(departmentGroupItem.getDepartmentName());
+            departmentVoList.add(departmentVoItme);
+        }
+
         return ServerResponse.createBySuccess(departmentVoList);
 
     }

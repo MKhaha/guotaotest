@@ -43,4 +43,10 @@ public interface AssetInfoMapper {
     List<AssetInfo> selectCompleteInventory(AssetInfo assetInfo);
     // 未完成库存盘点查询
     List<AssetInfo> selectNotCompleteInventory(AssetInfo assetInfo);
+
+    // 查询资产表中资产分类
+    List<String> selectCategoryList();
+
+    // 查询资产表中资产部门
+    List<String> selectDepartmentList();
 }

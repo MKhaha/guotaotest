@@ -341,4 +341,14 @@
     </if>
   </select>
 
+  <select id="selectCategoryList" resultType="string" >
+    SELECT DISTINCT asset_category
+    FROM asset_inventory
+  </select>
+
+  <select id="selectDepartmentList" resultType="string" >
+    SELECT DISTINCT department_responsibility
+    FROM asset_inventory
+  </select>
+
 </mapper>
