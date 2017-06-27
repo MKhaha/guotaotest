@@ -48,7 +48,7 @@ public class AssetPrinterImpl implements IAssetPrinter{
         try {
             System.setProperty("jna.encoding", "GBK");// 支持中文
             // TscLibDll.INSTANCE.about();
-            TscLibDll.INSTANCE.openport("\\\\192.168.1.72\\TSC TTP-244 Plus");
+            TscLibDll.INSTANCE.openport("\\\\192.168.1.116\\TSC TTP-244 Plus");
             // TscLibDll.INSTANCE.downloadpcx("C:\\UL.PCX", "UL.PCX");
             // TscLibDll.INSTANCE.sendcommand("REM ***** This is a test by JAVA. *****");
             TscLibDll.INSTANCE.setup("60", "40", "5", "15", "0", "2", "0");
