@@ -42,7 +42,6 @@ public class AssetController {
         return ServerResponse.createByErrorMessage("hello ~~~");
     }
 
-    private static final String SEARCH_BY_ASSET_ID = "searchByAssetId";
     private static final String SEARCH_BY_ASSET_NAME = "searchByAssetName";
     private static final String SEARCH_BY_ASSET_CATEGORY = "searchByAssetCategory";
     private static final String SEARCH_ALL = "searchAll";
