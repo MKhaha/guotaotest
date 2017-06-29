@@ -1,10 +1,10 @@
 package com.mmall.controller;
 
+import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.util.DigitalVerificationCode;
 import com.mmall.service.IUserService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +25,22 @@ public class UserController {
 
     @RequestMapping(value = "login.do",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<String> login(){
-        return ServerResponse.createByErrorMessage("hello error");
+    public ServerResponse<User> login(String phone,String password,HttpSession session){
+        ServerResponse<User> response = iUserService.login(phone,password);
+        if(response.isSuccess()){
+            session.setAttribute(Const.CURRENT_USER,response.getData());
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "logout.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse<String> logout(HttpSession session){
+        session.removeAttribute(Const.CURRENT_USER);
+        if(session.getAttribute(Const.CURRENT_USER)!=null){
+            return ServerResponse.createByErrorMessage("服务异常");
+        }
+        return ServerResponse.createBySuccessMessage("注销成功");
     }
 
     //********************************************************************************************************************
@@ -46,17 +60,20 @@ public class UserController {
     public ServerResponse<String> register(User user, String verificationCode, HttpSession session){
         return iUserService.register(user, verificationCode, session);
     }
-
-    /*
-    @RequestMapping(value = "checkValid.do",method = RequestMethod.POST)
-    @ResponseBody
-    public ServerResponse<String> checkValid(String phoneNumber, String verificationCode, HttpSession session){
-        if(session == null) {
-            return ServerResponse.createByErrorMessage("sessionΪ��");
-        }
-        String verificationCodeInSession = (String) session.getAttribute(Const.V_CODE);
-        return iUserService.checkValid(phoneNumber, verificationCode, verificationCodeInSession);
-    }*/
     //********************************************************************************************************************
-
+    @RequestMapping(value = "sendResetVerificationCode.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> sendResetPasswordVerificationCode(String phone, HttpSession session) {
+        String verificationCode = DigitalVerificationCode.getVerificationCode();
+        ServerResponse<String> response = iUserService.sendResetPasswordVerificationCode(phone, verificationCode);
+        if (response.isSuccess()) {
+            session.setAttribute(phone, verificationCode);
+        }
+        return response;
+    }
+    @RequestMapping(value = "reset_password.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> resetPassword(String phone,String password,String verificationCode,HttpSession session){
+        return iUserService.resetPassword(phone,password,verificationCode,session);
+    }
 }

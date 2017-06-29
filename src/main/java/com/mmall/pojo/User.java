@@ -9,13 +9,7 @@ public class User {
 
     private String password;
 
-  //  private String email;
-
     private String phone;
-
-  //  private String question;
-
-  //  private String answer;
 
     private Integer role;
 
@@ -23,7 +17,7 @@ public class User {
 
     private Date updateTime;
 
-    public User(Integer id, String username, String password, String email, String phone, String question, String answer, Integer role, Date createTime, Date updateTime) {
+    public User(Integer id, String username, String password,  String phone, Integer role, Date createTime, Date updateTime) {
         this.id = id;
         this.username = username;
         this.password = password;
