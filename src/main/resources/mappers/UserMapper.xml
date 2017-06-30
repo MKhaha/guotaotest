@@ -121,4 +121,19 @@
     select count(1) from asset_user
     where phone = #{phone}
   </select>
+
+  <select id="seleteLogin" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List"/>
+      FROM asset_user
+      WHERE phone = #{phone}
+      and password = #{password}
+  </select>
+    
+    <update id="updateByRestCode" parameterType="map" >
+      update asset_user
+      set password = #{password,jdbcType=VARCHAR},
+        update_time = now()
+      where phone = #{phone,jdbcType=VARCHAR}
+    </update>
 </mapper>
