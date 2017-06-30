@@ -91,7 +91,7 @@ public class AssetPrinterImpl implements IAssetPrinter{
 //    }
 
     @Override
-    public ServerResponse<String> testPrint(String assetId, String assetName) {
+    public ServerResponse<String> assetPrint(String assetId, String assetName) {
         String urlQRCodePrintService = PropertiesUtil.getProperty("addressQRCodePrintService");
         if (org.apache.commons.lang3.StringUtils.isBlank(urlQRCodePrintService)) {
             return ServerResponse.createByErrorMessage("获取不到二维码打印机服务地址");

@@ -1,3 +1,7 @@
 .idea
 target/
 guotaotest.iml
+
+.project
+.settings
+.classpath
