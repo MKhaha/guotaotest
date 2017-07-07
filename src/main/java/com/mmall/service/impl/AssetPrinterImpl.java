@@ -100,13 +100,16 @@ public class AssetPrinterImpl implements IAssetPrinter{
         OkHttpClient client = new OkHttpClient();
         Response response;
 
+
+        // System.out.println(assetId.getClass().getName());
         FormBody body = new FormBody.Builder()
-                .add(assetId.getClass().getName(), assetId)
-                .add(assetName.getClass().getName(), assetName)
+                .add("assetId", assetId)
+                .add("assetName", assetName)
                 .build();
 
         Request request = new Request.Builder()
                 .url(urlQRCodePrintService)
+//                .header("User-Agent", "OkHttp Headers.java")
                 .post(body)
                 .build();
 
