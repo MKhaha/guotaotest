@@ -27,6 +27,7 @@ public class DepartmentManageController {
     @RequestMapping(value = "getDepartment.do")
     @ResponseBody
     public ServerResponse<List<DepartmentVo>> getDepartment() {
+
         return iDepartment.getDepartmentList();
     }
 
