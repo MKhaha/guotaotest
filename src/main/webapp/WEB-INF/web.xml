@@ -8,6 +8,10 @@
          id="WebApp_ID" version="2.5">
   <display-name>Archetype Created Web Application</display-name>
 
+  <listener>
+    <listener-class>com.mmall.weixin.InitServlet</listener-class>
+  </listener>
+
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
