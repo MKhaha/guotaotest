@@ -40,6 +40,7 @@ public class AssetController {
     @RequestMapping(value = "test.do")
     @ResponseBody
     public int testError () {
+        System.out.println("test");
         return 9/0;
     }
 //    public ServerResponse<String> login(){
