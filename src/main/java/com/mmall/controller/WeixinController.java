@@ -23,9 +23,6 @@ public class WeixinController {
     @ResponseBody
     public Map getVerCode(HttpServletRequest request) throws Exception {
         Map map = new HashMap();
-       // StringBuffer utl = request.getRequestURL();//"http://iecloud.top/assetManagement/#";
-        //String url = utl.toString().split("#")[0];
-        //System.out.println(url);
         String url = request.getHeader("referer");
         String nonce = SignUtil.create_nonce_str();
         String timestamp = SignUtil.create_timestamp();
