@@ -5,10 +5,10 @@
         <encoder>
             <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
         </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
         </filter>
     </appender>
 
@@ -31,6 +31,24 @@
         </filter>
     </appender>
 
+    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<File>d:/mmalllog/mmall.log</File>-->
+        <File>C:/java_log/mmall/warn.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>C:/java_log/mmall/mmall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <append>true</append>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <!--encoder 负责两件事，一是把日志信息转换成字节数组，二是把字节数组写入到输出流-->
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+        </encoder>
+        <filter class ="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<File>d:/mmalllog/error.log</File>-->
@@ -51,22 +69,27 @@
         </filter>
     </appender>
 
-    <logger name="com.mmall" additivity="false">
-        <level value = "ERROR"/>
+    <logger name="com.mmall" additivity="false" level= "DEBUG">
         <appender-ref ref="console" />
         <appender-ref ref="mmall"/>
     </logger>
+
+    <logger name="com.mmall" additivity="false" level= "WARN">
+        <appender-ref ref="console" />
+        <appender-ref ref="warn"/>
+    </logger>
+
 
     <logger name = "com.mmall" additivity="false" level="ERROR">
         <appender-ref ref = "console"/>
         <appender-ref ref = "error"/>
     </logger>
 
+    <logger name="com.mmall.aop" level="WARN"/>
     <!-- geelynote mybatis log 日志 -->
-
     <logger name="com.mmall.dao" level="DEBUG"/>
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="console"/>
     </root>
 
